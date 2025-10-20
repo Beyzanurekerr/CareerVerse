@@ -7,6 +7,7 @@ import { ChatbotSection } from "./components/ChatbotSection";
 import { CareerExplorerNew } from "./components/CareerExplorerNew";
 import { Footer } from "./components/Footer";
 import { CareerDetailPage } from "./components/CareerDetailPage";
+import { ToastProvider } from "./components/Toast"; // ✅ Toast sistemi eklendi
 
 export default function App() {
   const [selectedCareer, setSelectedCareer] = useState<number | null>(null);
@@ -24,20 +25,22 @@ export default function App() {
 
   return (
     <ThemeProvider>
-      {selectedCareer === 2 ? (
-        <CareerDetailPage onBack={handleBackToHome} />
-      ) : (
-        <div className="min-h-screen bg-background">
-          <Header />
-          <main>
-            <HeroSection />
-            <FeaturesSection />
-            <ChatbotSection />
-            <CareerExplorerNew onCareerClick={handleCareerClick} />
-          </main>
-          <Footer />
-        </div>
-      )}
+      <ToastProvider>
+        {selectedCareer ? (
+          <CareerDetailPage id={selectedCareer} onBack={handleBackToHome} /> // ✅ id prop'u eklendi
+        ) : (
+          <div className="min-h-screen bg-background">
+            <Header />
+            <main>
+              <HeroSection />
+              <FeaturesSection />
+              <ChatbotSection />
+              <CareerExplorerNew onCareerClick={handleCareerClick} />
+            </main>
+            <Footer />
+          </div>
+        )}
+      </ToastProvider>
     </ThemeProvider>
   );
 }
